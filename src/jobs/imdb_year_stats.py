@@ -1,7 +1,6 @@
 from typing import Iterable, Tuple, Any
 from mapreduce_engine import run_mapreduce
 
-# Expected columns: year (Year), rating (Rating)
 
 def mapper(row: dict) -> Iterable[Tuple[Any, Any]]:
     year_raw = row.get('year') or row.get('Year') or ''

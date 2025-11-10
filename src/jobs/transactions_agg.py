@@ -1,7 +1,6 @@
 from typing import Iterable, Tuple, Any
 from mapreduce_engine import run_mapreduce
 
-# Emitujemy (category, amount)
 
 def mapper(row: dict) -> Iterable[Tuple[Any, Any]]:
     try:
@@ -29,11 +28,9 @@ if __name__ == "__main__":
     parser.add_argument("--top", type=int, default=5)
     args = parser.parse_args()
     results = aggregate_transactions(args.input)
-    # Wyznacz top po sumie
     ranked = sorted(results.items(), key=lambda x: x[1]["total"], reverse=True)[:args.top]
     for cat, stats in ranked:
         print(f"{cat}: total={stats['total']:.2f} avg={stats['avg']:.2f} count={stats['count']}")
-    # Zapis JSON pełny
     import os
     out_path = os.path.join("output", "transactions_agg.json")
     with open(out_path, "w", encoding="utf-8") as f:

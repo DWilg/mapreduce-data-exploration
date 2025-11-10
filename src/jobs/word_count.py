@@ -1,12 +1,10 @@
 from typing import Iterable, Tuple, Any
 from mapreduce_engine import run_mapreduce
 
-# Mapper: przyjmuje wiersz (dict z CSV) i emituje (słowo, 1) z kolumny wybranej.
 
 def make_mapper(column: str):
     def mapper(row: dict) -> Iterable[Tuple[Any, Any]]:
         value = str(row.get(column, ""))
-        # Rozbij na pseudo-słowa wg znaków nie-alfanumerycznych
         for token in [t for t in value.replace(',', ' ').replace('.', ' ').split() if t]:
             yield token.lower(), 1
     return mapper

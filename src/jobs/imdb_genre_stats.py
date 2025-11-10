@@ -2,7 +2,6 @@ from typing import Iterable, Tuple, Any
 from mapreduce_engine import run_mapreduce
 import csv
 
-# Expected columns: genre (possibly comma separated), rating, votes
 
 def mapper(row: dict) -> Iterable[Tuple[Any, Any]]:
     genres_field = row.get('genre') or row.get('Genre') or ''
@@ -17,7 +16,6 @@ def mapper(row: dict) -> Iterable[Tuple[Any, Any]]:
     except ValueError:
         votes = 0
     for g in [g.strip() for g in genres_field.split(',') if g.strip()]:
-        # Emit (genre, (rating, votes, 1))
         yield g, (rating, votes, 1)
 
 

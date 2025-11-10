@@ -11,7 +11,6 @@ def visualize_imdb(path: str):
     rating_col = 'rating' if 'rating' in df.columns else 'Rating'
     year_col = 'year' if 'year' in df.columns else 'Year'
 
-    # Genre popularity (count)
     genres_expanded = []
     for raw in df[genre_col].fillna(''):
         for g in [g.strip() for g in str(raw).split(',') if g.strip()]:
@@ -26,7 +25,6 @@ def visualize_imdb(path: str):
     plt.savefig('reports/imdb_top_genres.png')
     plt.close()
 
-    # Rating trend over years
     if year_col in df.columns:
         year_stats = df.groupby(year_col)[rating_col].mean().sort_index()
         plt.figure(figsize=(9,4))

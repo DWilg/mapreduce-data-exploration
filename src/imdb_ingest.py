@@ -6,7 +6,7 @@ except ImportError:
     kagglehub = None
 
 DATASET = "ashirwadsangwan/imdb-dataset"
-DEFAULT_FILE = "IMDb Dataset.csv"  # adjust if different in dataset
+DEFAULT_FILE = "IMDb Dataset.csv" 
 
 def load_imdb(out_path: str, file_path: str = DEFAULT_FILE):
     if kagglehub is None:
