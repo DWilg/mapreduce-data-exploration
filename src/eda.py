@@ -24,17 +24,14 @@ def eda(path: str):
     print("\n== Agregacje wg kategorii ==")
     print(by_cat)
 
-    # Missing values summary
     print("\n== Missing values ==")
     miss = df.isna().sum().to_frame(name='missing')
     miss['missing_pct'] = (miss['missing'] / len(df) * 100).round(2)
     print(miss)
 
-    # Value counts kategorii
     print("\n== Liczność kategorii ==")
     print(df['category'].value_counts())
 
-    # Korelacje numeryczne
     num_cols = [c for c in df.columns if df[c].dtype != 'object']
     if num_cols:
         corr = df[num_cols].corr()

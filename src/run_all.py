@@ -35,10 +35,8 @@ if __name__ == '__main__':
     for name, cmd in steps:
         ok = run_step(name, cmd)
         all_ok = all_ok and ok
-    # Podsumowanie quality gates (proste)
     print("\n=== Quality Gates Summary ===")
     print("PASS" if all_ok else "FAIL")
-    # Zapis stanu
     with open(os.path.join(ROOT, 'output', 'quality_gates.json'), 'w', encoding='utf-8') as f:
         json.dump({"status": "PASS" if all_ok else "FAIL"}, f, indent=2, ensure_ascii=False)
     print("Zapisano output/quality_gates.json")

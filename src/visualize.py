@@ -19,7 +19,6 @@ def visualize(path: str):
     df = pd.read_csv(path, parse_dates=['timestamp'])
     os.makedirs('reports', exist_ok=True)
 
-    # Histogram kwot
     plt.figure(figsize=(6,4))
     sns.histplot(df['amount'], bins=10, kde=True)
     plt.title('Rozkład kwot transakcji')
@@ -27,7 +26,6 @@ def visualize(path: str):
     plt.savefig('reports/hist_amount.png')
     plt.close()
 
-    # Suma per kategoria
     plt.figure(figsize=(6,4))
     cat_sum = df.groupby('category')['amount'].sum().sort_values(ascending=False)
     sns.barplot(x=cat_sum.values, y=cat_sum.index)
@@ -36,7 +34,6 @@ def visualize(path: str):
     plt.savefig('reports/bar_category_sum.png')
     plt.close()
 
-    # Kwoty w czasie
     df_sorted = df.sort_values('timestamp')
     plt.figure(figsize=(6,4))
     sns.lineplot(x=df_sorted['timestamp'], y=df_sorted['amount'])
@@ -46,7 +43,6 @@ def visualize(path: str):
     plt.savefig('reports/line_amount_time.png')
     plt.close()
 
-    # Boxplot kwot per kategoria
     plt.figure(figsize=(7,4))
     sns.boxplot(data=df, x='category', y='amount')
     plt.title('Rozkład kwot per kategoria')
@@ -55,7 +51,6 @@ def visualize(path: str):
     plt.savefig('reports/box_amount_by_category.png')
     plt.close()
 
-    # Scatter user_id vs amount
     plt.figure(figsize=(6,4))
     sns.scatterplot(data=df, x='user_id', y='amount', hue='category')
     plt.title('User vs Amount (kolor=kategoria)')

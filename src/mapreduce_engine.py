@@ -47,14 +47,12 @@ def _run_mapper_chunk(args):
     if combiner is None:
         return local_pairs
 
-    # Lokalna faza combiner (mini-reduce w obrębie chunku)
     groups: Dict[Any, List[Any]] = {}
     for k, v in local_pairs:
         groups.setdefault(k, []).append(v)
     combined_out: List[Tuple[Any, Any]] = []
     for k, values in groups.items():
         combined_value = combiner(k, values)
-        # Combiner może zwrócić pojedynczą wartość lub listę wartości
         if isinstance(combined_value, list):
             for cv in combined_value:
                 combined_out.append((k, cv))
@@ -83,7 +81,6 @@ def run_mapreduce(
     if processes is None:
         processes = max(1, cpu_count() - 1)
 
-    # Wczytanie danych
     if isinstance(input_source, str):
         records: List[Record] = []
         if read_csv:
@@ -113,14 +110,12 @@ def run_mapreduce(
         mapped = [kv for sub in mapped_lists for kv in sub]
     t_end_map = time.time()
 
-    # Shuffle: grupowanie według klucza
     t_start_shuffle = time.time()
     groups: Dict[Any, List[Any]] = {}
     for k, v in mapped:
         groups.setdefault(k, []).append(v)
     t_end_shuffle = time.time()
 
-    # Reduce
     t_start_reduce = time.time()
     results: Dict[Any, Any] = {}
     for k, values in groups.items():
