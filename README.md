@@ -56,3 +56,61 @@ python src/visualize.py --input data/transactions_sample.csv
 
 # Dane IMDb
 python src/visualize_imdb.py --input data/imdb.csv
+```
+
+## Spark (opcjonalnie)
+Dodaliśmy równoległe przykłady w PySpark, aby pokazać skalowalną wersję przetwarzania.
+
+### Instalacja dodatkowa
+```bash
+pip install pyspark
+# lub
+pip install -r requirements-spark.txt
+```
+
+### Word Count w Spark
+```bash
+python src/spark_word_count.py --input data/transactions_sample.csv --column category --top 10
+```
+
+### Agregacja transakcji w Spark
+```bash
+python src/spark_transactions_agg.py --input data/transactions_sample.csv --top 5
+```
+
+### (Opcjonalnie) ETL do Parquet
+```bash
+python src/spark_clean_transactions.py --input data/transactions_sample.csv --out data/processed/transactions.parquet
+```
+
+### Porównanie lokalne vs Spark
+| Aspekt | Lokalny MapReduce | Spark |
+|--------|-------------------|-------|
+| Skalowalność | CPU lokalne (multiprocessing) | Klaster / executors |
+| API | Własne map/reduce | RDD + DataFrame + SQL + MLlib |
+| Format danych | CSV | Parquet, CSV, inne |
+| ML | scikit-learn w notebooku | MLlib / pipeline |
+| Czas startu | Bardzo szybki | Wolniejszy (inicjalizacja JVM) |
+
+Notebook demonstracyjny: `notebooks/BigData.ipynb` (pipeline EDA + model). Planowany notebook PySpark: `notebooks/PySparkDemo.ipynb`.
+
+## Raporty i artefakty
+Po uruchomieniu skryptów w folderach `output/` i `reports/` pojawią się:
+- `output/transactions_agg.json` – wyniki agregacji kategorii
+- `output/imdb_genre_stats.json`, `output/imdb_year_stats.json` – statystyki IMDb
+- `reports/hist_amount.png`, `reports/bar_category_sum.png`, `reports/transactions_corr.png` – wizualizacje transakcji
+- `reports/imdb_top_genres.png`, `reports/imdb_rating_trend.png` – wizualizacje IMDb
+
+## Jakość / automatyczny pipeline
+Uruchomienie całości:
+```bash
+python src/run_all.py
+```
+Tworzy plik `output/quality_gates.json` z informacją PASS/FAIL.
+
+## Następne kroki (możliwe rozszerzenia)
+- Benchmark lokalny vs Spark dla większego pliku
+- Dodanie klastrowania w Spark MLlib
+- Konwersja do formatu Parquet z partycjonowaniem po roku
+- Dodanie TF-IDF dla opisu filmów (Overview) w MapReduce / Spark
+
