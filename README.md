@@ -67,6 +67,7 @@ pip install pyspark
 # lub
 pip install -r requirements-spark.txt
 ```
+Rekomendowana wersja Pythona: 3.11 (wymagana dla PySpark). Projekt działa też bez Spark na 3.12, ale Spark nie jest wspierany na 3.12.
 
 ### Word Count w Spark
 ```bash
